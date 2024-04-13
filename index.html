@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ultrasonic Sensor Data</title>
+    <meta http-equiv="refresh" content="5">
+</head>
+<body>
+    <h1>Ultrasonic Sensor Data</h1>
+    <p id="distance"></p>
+    <p id="timestamp"></p>
+
+    <script>
+        function getData() {
+            fetch('/')
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const htmlDoc = parser.parseFromString(data, 'text/html');
+                    const distance = htmlDoc.querySelector('p:nth-of-type(1)').innerText;
+                    const timestamp = htmlDoc.querySelector('p:nth-of-type(2)').innerText;
+                    document.getElementById('distance').innerText = distance;
+                    document.getElementById('timestamp').innerText = timestamp;
+                });
+        }
+
+        getData();
+        setInterval(getData, 5000); // Refresh every 5 seconds
+    </script>
+</body>
+</html>
